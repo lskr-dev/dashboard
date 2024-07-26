@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useSidebarStore } from '@/stores/sidebar'
-import Translate from '@/translate'
 import { ref } from 'vue'
 
 const sidebarStore = useSidebarStore()
@@ -27,7 +26,7 @@ const handleItemClick = (index: number) => {
             '!text-white': childItem.label === sidebarStore.selected
           }"
         >
-          {{ Translate.to(childItem.label) }}
+          {{ childItem.label }}
         </router-link>
       </li>
     </template>

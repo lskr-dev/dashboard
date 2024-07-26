@@ -15,9 +15,8 @@
  * @method watch metodo interno do vuejs utilizado para escutar quando uma variavel é alterada, neste caso ela limpa os dados
  * @method updateValue passa o valor para o componente pai
  */
-import { type PropType } from 'vue'
-import type { SelectController, SelectObjectController } from '@/Helpers/Types'
-import Translate from '@/translate'
+import { type PropType } from "vue";
+import type { SelectController, SelectObjectController } from "@/Helpers/Types";
 
 const props = defineProps({
   items: Array,
@@ -27,12 +26,12 @@ const props = defineProps({
   controller: Object as PropType<SelectController>,
   clearData: Boolean,
   reference: Object,
-  referenceName: String
-})
+  referenceName: String,
+});
 </script>
 <template>
   <p class="mb-0 dark:text-zinc-200 text-black">
-    {{ Translate.to(label) }}
+    {{ label }}
     <i v-show="required" class="text-danger">*</i>
   </p>
   <hr class="dark:text-zinc-200 text-slate-200 mb-2 w-1/2" />
@@ -41,7 +40,7 @@ const props = defineProps({
     :disabled="controller?.isDisabled"
     v-model="reference![referenceName!]"
   >
-    <option disabled value="0">{{ Translate.to('select-item') }}</option>
+    <option disabled value="0">{{ "select-item" }}</option>
     <option
       v-for="item in props.items"
       :value="
@@ -55,6 +54,10 @@ const props = defineProps({
       }}
     </option>
   </select>
-  <p v-show="controller?.notFound" class="text-danger lowercase">{{ Translate.to('not-found') }}</p>
-  <p v-show="controller?.isEmpty" class="text-danger lowercase">{{ Translate.to('empty-data') }}</p>
+  <p v-show="controller?.notFound" class="text-danger lowercase">
+    {{ "not-found" }}
+  </p>
+  <p v-show="controller?.isEmpty" class="text-danger lowercase">
+    {{ "empty-data" }}
+  </p>
 </template>

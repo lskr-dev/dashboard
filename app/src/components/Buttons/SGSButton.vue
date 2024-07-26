@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import type { PropType, Ref } from 'vue'
-import SGSLoading from '@/components/Loading/SGSLoading.vue'
-import Translate from '@/translate'
-import type { ButtonController } from '@/Helpers/Types'
+import type { PropType, Ref } from "vue";
+import SGSLoading from "@/components/Loading/SGSLoading.vue";
+import type { ButtonController } from "@/Helpers/Types";
 
 const props = defineProps({
   label: String,
-  controller: Object as PropType<ButtonController>
-})
+  controller: Object as PropType<ButtonController>,
+});
 </script>
 
 <template>
@@ -19,6 +18,6 @@ const props = defineProps({
     <div v-show="!controller?.isLoading">
       <slot></slot>
     </div>
-    {{ Translate.to(props.label) }}
+    {{ props.label }}
   </button>
 </template>

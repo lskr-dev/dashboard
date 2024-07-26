@@ -1,17 +1,16 @@
-import Translate from '@/translate'
-import swal from 'sweetalert'
+import swal from "sweetalert";
 
 class Response {
   public static show(icon: string, message: string) {
     return swal({
-      title: Translate.to(icon),
+      title: icon,
       icon: icon,
-      text: Translate.to(message),
+      text: message,
       timer: 1000,
       //@ts-expect-error
-      button: false
-    })
+      button: false,
+    });
   }
 }
 
-export { Response }
+export { Response };

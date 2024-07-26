@@ -6,29 +6,28 @@
  * @interface Route Tipagem de props recebidas
  * @var props Valor recebido do componente pai
  */
-import RouterButton from '@/components/Buttons/RouterButton.vue'
-import SGSDivider from '@/components/Forms/SGSDivider.vue'
-import Translate from '@/translate'
-import type { PropType } from 'vue'
+import RouterButton from "@/components/Buttons/RouterButton.vue";
+import type { PropType } from "vue";
 
 interface Route {
-  label: string
-  to: string
+  label: string;
+  to: string;
 }
 
 const props = defineProps({
   title: String,
   push: Object as PropType<Route>,
-  back: Object as PropType<Route>
-})
+  back: Object as PropType<Route>,
+});
 </script>
 <template>
   <main class="bg-slate-200 dark:bg-slate-800 rounded-md shadow-lg p-2 mt-0">
     <div class="w-5/6 flex flex-col mx-auto p-5 gap-5">
       <div class="mt-0">
-        <span class="text-black dark:text-zinc-300 font-medium text-2xl p-2 mb-0">{{
-          Translate.to(props.title)
-        }}</span>
+        <span
+          class="text-black dark:text-zinc-300 font-medium text-2xl p-2 mb-0"
+          >{{ props.title }}</span
+        >
         <hr class="mt-1 mb-5 w-10/12 text-slate-400" />
       </div>
       <div v-if="push" class="flex flex-row ml-auto gap-1">

@@ -5,13 +5,12 @@
  *
  * @var props Valores que são passados via props pelo pai do componente
  */
-import type { PropType, Ref } from 'vue'
-import Translate from '@/translate'
+import type { PropType, Ref } from "vue";
 
 const props = defineProps({
   label: String,
-  to: String
-})
+  to: String,
+});
 </script>
 
 <template>
@@ -20,6 +19,6 @@ const props = defineProps({
     class="inline-flex bg-primary text-white rounded-md items-center justify-center gap-1.5 py-1 px-3 text-center font-medium hover:bg-opacity-90 lg:px-4 xl:px-5"
   >
     <slot></slot>
-    {{ Translate.to(props.label) }}
+    {{ props.label }}
   </router-link>
 </template>

@@ -1,23 +1,18 @@
-import './assets/css/satoshi.css'
-import './assets/css/style.css'
-import 'flatpickr/dist/flatpickr.min.css'
+import "./assets/css/satoshi.css";
+import "./assets/css/style.css";
+import "flatpickr/dist/flatpickr.min.css";
 
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import VueApexCharts from 'vue3-apexcharts'
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+import VueApexCharts from "vue3-apexcharts";
 
-import App from './App.vue'
-import router from './router'
-import Translate from './translate'
+import App from "./App.vue";
+import router from "./router";
 
-const app = createApp(App)
+const app = createApp(App);
 
-app.use(createPinia())
-app.use(router)
-app.use(VueApexCharts)
+app.use(createPinia());
+app.use(router);
+app.use(VueApexCharts);
 
-/** TRADUTOR */
-app.config.globalProperties.$t = Translate.to
-/** TRADUTOR */
-
-app.mount('#app')
+app.mount("#app");

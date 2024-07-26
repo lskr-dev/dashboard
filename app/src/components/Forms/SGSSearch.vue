@@ -6,15 +6,14 @@
  * @props Valores de entrada recebido pelo componente pai
  * @method emits Callback utilizada para alimentar componente pai com valores
  */
-import Translate from '@/translate'
 
 const props = defineProps({
   required: Boolean,
   reference: Object,
-  referenceName: String
-})
+  referenceName: String,
+});
 
-const emits = defineEmits(['updateValue'])
+const emits = defineEmits(["updateValue"]);
 </script>
 
 <template>
@@ -24,7 +23,7 @@ const emits = defineEmits(['updateValue'])
     </label>
     <hr class="dark:text-zinc-200 text-slate-200 mb-2 w-1/2" />
     <input
-      :placeholder="Translate.to('search-here')"
+      :placeholder="'search-here'"
       v-model="props.reference![props.referenceName!]"
       type="text"
       class="w-full rounded border-[1.5px] text-black border-stroke py-3 px-5 font-normal outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:text-white dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
