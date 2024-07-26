@@ -121,10 +121,10 @@ onMounted(() => {
 </script>
 <template>
   <DefaultLayout>
-    <FormLayout title="create-user">
+    <FormLayout title="Criar usuário">
       <template #body>
         <SGSInput
-          label="name"
+          label="Nome"
           required
           :reference="apiFormData"
           referenceName="nome"
@@ -132,25 +132,15 @@ onMounted(() => {
         />
         <SGSDivider />
         <SGSInput
-          label="email"
+          label="Email"
           required
           :reference="apiFormData"
           referenceName="email"
           :controller="emailController"
         />
         <SGSDivider />
-        <SGSSelect
-          label="user-type"
-          :items="tipoUsuarioData"
-          :track="{ field: 'id', name: 'nome' }"
-          :controller="tipoUsuarioController"
-          :reference="apiFormData"
-          referenceName="tipo_usuario_id"
-          required
-        />
-        <SGSDivider />
         <SGSPassword
-          label="password"
+          label="Senha"
           required
           :reference="apiFormData"
           referenceName="senha"
@@ -158,7 +148,7 @@ onMounted(() => {
         />
       </template>
       <template #handler>
-        <SGSButton @click="sendData" label="create-user" :controller="buttonController" />
+        <SGSButton @click="sendData" label="Salvar" :controller="buttonController" />
       </template>
     </FormLayout>
   </DefaultLayout>
