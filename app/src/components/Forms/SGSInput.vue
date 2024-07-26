@@ -11,6 +11,7 @@ import type { PropType } from "vue";
 
 const props = defineProps({
   label: String,
+  mask: String,
   required: Boolean,
   reference: Object,
   referenceName: String,
@@ -28,13 +29,22 @@ const emits = defineEmits(["updateValue"]);
     </label>
     <hr class="dark:text-zinc-200 text-slate-200 mb-2 w-1/2" />
     <input
-      :placeholder="'type-here'"
+      v-if="props.mask"
+      :placeholder="'Digite aqui.....'"
+      v-mask="'##'"
+      v-model="props.reference![props.referenceName!]"
+      type="text"
+      class="w-full rounded border-[1.5px] text-black border-stroke py-3 px-5 font-normal outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:text-white dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+    />
+    <input
+      v-else
+      :placeholder="'Digite aqui.....'"
       v-model="props.reference![props.referenceName!]"
       type="text"
       class="w-full rounded border-[1.5px] text-black border-stroke py-3 px-5 font-normal outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:text-white dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
     />
     <label v-if="controller?.isEmpty" class="text-red lowercase text-sm">{{
-      "empty-data"
+      "Dados não podem estar vazios"
     }}</label>
   </div>
 </template>

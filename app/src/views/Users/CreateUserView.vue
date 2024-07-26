@@ -3,121 +3,100 @@
  * @description View para cadastro de usuários
  * @active
  */
-import { onMounted, ref, type Ref } from 'vue'
-import { useGlobalStore } from '@/stores/global'
-import DefaultLayout from '@/layouts/DefaultLayout.vue'
-import FormLayout from '@/layouts/FormLayout.vue'
-import SGSButton from '@/components/Buttons/SGSButton.vue'
-import SGSInput from '@/components/Forms/SGSInput.vue'
-import SGSPassword from '@/components/Forms/SGSPassword.vue'
-import SGSDivider from '@/components/Forms/SGSDivider.vue'
+import { onMounted, ref, type Ref } from "vue";
+import { useGlobalStore } from "@/stores/global";
+import DefaultLayout from "@/layouts/DefaultLayout.vue";
+import FormLayout from "@/layouts/FormLayout.vue";
+import SGSButton from "@/components/Buttons/SGSButton.vue";
+import SGSInput from "@/components/Forms/SGSInput.vue";
+import SGSDivider from "@/components/Forms/SGSDivider.vue";
 import type {
   ApiResponse,
   ButtonController,
   InputController,
-  PasswordController,
-  SelectController,
-  TipoUsuario,
-  Usuario
-} from '@/Helpers/Types'
-import {
-  buttonHandler,
-  validateInputParameter,
-  validatePasswordParamenter,
-  validateSelectParameter
-} from '@/Helpers/Validator'
-import { Response } from '@/Helpers/Response'
-import { clearUserData } from '@/Helpers/Free'
-import { bindKey } from '@/Helpers/Binder'
-import SGSSelect from '@/components/Forms/SGSSelect.vue'
+  Usuario,
+} from "@/Helpers/Types";
+import { buttonHandler, validateInputParameter } from "@/Helpers/Validator";
+import { Response } from "@/Helpers/Response";
+import { clearUserData } from "@/Helpers/Free";
+import { bindKey } from "@/Helpers/Binder";
+import SGSBoolean from "@/components/Forms/SGSBoolean.vue";
+import SGSDate from "@/components/Forms/SGSDate.vue";
 
-const request = useGlobalStore().request
+const request = useGlobalStore().request;
 
 const buttonController: Ref<ButtonController> = ref({
   isLoading: false,
-  isDisabled: false
-})
+  isDisabled: false,
+});
 
-const nomeController: Ref<InputController> = ref({
-  isEmpty: false,
-  isDisabled: false
-})
-const emailController: Ref<InputController> = ref({
-  isEmpty: false,
-  isDisabled: false
-})
-const senhaController: Ref<PasswordController> = ref({
+const nameController: Ref<InputController> = ref({
   isEmpty: false,
   isDisabled: false,
-  isShort: false
-})
-const tipoUsuarioController: Ref<SelectController> = ref({
-  isDisabled: true,
+});
+const cityController: Ref<InputController> = ref({
   isEmpty: false,
-  notFound: false
-})
+  isDisabled: false,
+});
+const phoneController: Ref<InputController> = ref({
+  isEmpty: false,
+  isDisabled: false,
+});
 
-const tipoUsuarioData: Ref<Array<TipoUsuario>> = ref(<Array<TipoUsuario>>[])
 const apiFormData: Ref<Usuario> = ref(<Usuario>{
-  nome: '',
-  email: '',
-  senha: '',
-  tipo_usuario_id: 0
-})
+  name: "",
+  city: "",
+  phone: "",
+  is_contacted: false,
+  is_converted: false,
+  https_expired_date: null,
+});
 
-const getTipoUsuarioData = async () => {
-  await request.get('/tipo-usuario').then((res) => {
-    if (res.status) {
-      tipoUsuarioData.value = res.list
-      tipoUsuarioController.value.isDisabled = false
-    } else {
-      tipoUsuarioController.value.notFound = true
-    }
-  })
-}
 const validateData = (): boolean => {
-  const isValidNome = validateInputParameter(nomeController.value, apiFormData.value.nome)
-  const isValidEmail = validateInputParameter(emailController.value, apiFormData.value.email)
-  const isValidPassword = validatePasswordParamenter(senhaController.value, apiFormData.value.senha)
-  const isValidTipoUsuario = validateSelectParameter(
-    tipoUsuarioController.value,
-    apiFormData.value.tipo_usuario_id
-  )
+  const isValidName = validateInputParameter(
+    nameController.value,
+    apiFormData.value.name
+  );
+  const isValidCity = validateInputParameter(
+    cityController.value,
+    apiFormData.value.city
+  );
+  const isValidPhone = validateInputParameter(
+    phoneController.value,
+    apiFormData.value.phone
+  );
 
-  return isValidNome && isValidEmail && isValidTipoUsuario && isValidPassword
-}
+  return isValidCity && isValidName && isValidPhone;
+};
 
 const sendData = async () => {
-  buttonHandler(buttonController.value, true)
+  buttonHandler(buttonController.value, true);
 
   if (!validateData()) {
-    return buttonHandler(buttonController.value, false)
+    return buttonHandler(buttonController.value, false);
   }
 
   await request
-    .store('/usuario', apiFormData.value)
+    .store("/usuario", apiFormData.value)
     .then((res: ApiResponse) => {
       if (res.status) {
-        Response.show('success', res.messageCode)
+        Response.show("success", res.messageCode);
       } else {
-        Response.show('error', res.messageCode)
+        Response.show("error", res.messageCode);
       }
     })
     .catch((err) => {
-      Response.show('error', 'unexpected-error')
+      Response.show("error", "unexpected-error");
     })
     .finally(() => {
-      buttonHandler(buttonController.value, false)
-      clearUserData(apiFormData.value)
-    })
-}
+      buttonHandler(buttonController.value, false);
+      clearUserData(apiFormData.value);
+    });
+};
 
 onMounted(() => {
-  Promise.all([getTipoUsuarioData()]).catch((err) => {
-    console.log('Erro ao buscar dados da api' + err)
-  })
-  bindKey('Enter', sendData)
-})
+  bindKey("Enter", sendData);
+});
 </script>
 <template>
   <DefaultLayout>
@@ -128,27 +107,51 @@ onMounted(() => {
           required
           :reference="apiFormData"
           referenceName="nome"
-          :controller="nomeController"
+          :controller="nameController"
         />
         <SGSDivider />
         <SGSInput
-          label="Email"
+          label="Cidade"
           required
           :reference="apiFormData"
-          referenceName="email"
-          :controller="emailController"
+          referenceName="city"
+          :controller="cityController"
         />
         <SGSDivider />
-        <SGSPassword
-          label="Senha"
+        <SGSInput
+          label="Telefone"
+          :mask="'(##) # ####-####'"
           required
           :reference="apiFormData"
-          referenceName="senha"
-          :controller="senhaController"
+          referenceName="phone"
+          :controller="phoneController"
+        />
+        <SGSDivider />
+        <SGSBoolean
+          :title="'Cliente conectado ?'"
+          :reference="apiFormData"
+          referenceName="is_contacted"
+        />
+        <SGSDivider />
+        <SGSBoolean
+          :title="'Cliente convertido ?'"
+          :reference="apiFormData"
+          referenceName="is_converted"
+        />
+        <SGSDivider />
+        <SGSDate
+          v-if="apiFormData.is_converted"
+          :title="'Data https expirado'"
+          :reference="apiFormData"
+          referenceName="https_expired_date"
         />
       </template>
       <template #handler>
-        <SGSButton @click="sendData" label="Salvar" :controller="buttonController" />
+        <SGSButton
+          @click="sendData"
+          label="Salvar"
+          :controller="buttonController"
+        />
       </template>
     </FormLayout>
   </DefaultLayout>
